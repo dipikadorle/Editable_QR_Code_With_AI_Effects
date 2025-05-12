@@ -1,0 +1,99 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <title>QR Code Dashboard</title>
+    <link rel="stylesheet" href="/static/css/style.css">
+    <script src="/static/js/script.js"></script>
+</head>
+<body>
+
+<nav>
+    <div>
+        <h1>QR Code AI Generator</h1>
+    </div>
+    <div>
+        <a href="/logout" class="btn">Logout</a>
+    </div>
+</nav>
+
+<h2><u>Hello, Welcome to Your Dashboard 😊</u></h2>
+
+<!-- Flash Messages 🔥 -->
+{% with messages = get_flashed_messages(with_categories=true) %}
+{% if messages %}
+<div>
+    {% for category, message in messages %}
+    <div class="alert alert-{{ category }}">
+        {{ message }}
+    </div>
+    {% endfor %}
+</div>
+{% endif %}
+{% endwith %}
+
+<!-- QR Code Generate Form -->
+<div class="qr-form">
+    <form action="/generate_qr" method="post" enctype="multipart/form-data">
+        <input type="text" name="url" placeholder="Enter URL 🔗" required><br><br>
+
+        <!-- Color Selection -->
+        <label>QR Fill Color:</label>
+        <input type="color" name="fill_color" value="#000000"><br><br>
+
+        <label>QR Background Color:</label>
+        <input type="color" name="back_color" value="#ffffff"><br><br>
+
+        <!-- Logo Upload -->
+        <label>Upload Logo (optional):</label>
+        <input type="file" name="logo" accept="image/*"><br><br>
+
+        <button type="submit">Generate QR Code</button>
+    </form>
+</div>
+
+<hr>
+
+<h3>Your QR Codes</h3>
+
+<div class="qr-codes">
+{% if qr_codes %}
+    {% for qr in qr_codes %}
+    <div class="qr-card">
+        <p>Short URL: <a href="/qr/{{ qr.short_url }}" target="_blank">/qr/{{ qr.short_url }}</a></p>
+        
+        <!-- QR Image -->
+        <img src="/static/qrcodes/{{ qr.short_url }}.png" width="150"><br><br>
+
+        <!-- Play-only Audio (no download) -->
+        <audio controls controlsList="nodownload">
+            <source src="/static/audio/{{ qr.short_url }}.mp3" type="audio/mpeg">
+            Your browser does not support the audio element.
+        </audio>
+
+        <br><br>
+
+        <!-- Download QR Code Button -->
+        <a href="/static/qrcodes/{{ qr.short_url }}.png"
+           download="qr_{{ qr.short_url }}.png"
+           class="download-btn">
+           Download QR Code
+        </a>
+
+        <br><br>
+
+        <!-- Update QR Code URL Form -->
+        <form action="/update_qr" method="POST">
+            <input type="hidden" name="short_url" value="{{ qr.short_url }}">
+            <input type="text" name="new_url" placeholder="Enter New URL">
+            <button type="submit">Update Link</button>
+        </form>        
+
+    </div>
+    {% endfor %}
+{% else %}
+    <p>No QR Codes Generated Yet!</p>
+{% endif %}
+</div>
+
+</body>
+</html>

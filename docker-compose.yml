@@ -1,0 +1,30 @@
+version: '3.8'
+
+services:
+  db:
+    image: mysql:8.0
+    restart: always
+    environment:
+      MYSQL_DATABASE: editable_qr_database
+      MYSQL_USER: user
+      MYSQL_PASSWORD: pass
+      MYSQL_ROOT_PASSWORD: rootpass
+    ports:
+      - "3307:3306"   # changed port from 3306 to 3307
+    volumes:
+      - db_data:/var/lib/mysql
+
+  web:
+    build: .
+    ports:
+      - "5001:5000"   # changed port from 5000 to 5001
+    depends_on:
+      - db
+    environment:
+      DB_HOST: db
+      DB_USER: root
+      DB_PASSWORD: rootpass
+      DB_NAME: editable_qr_database
+
+volumes:
+  db_data:

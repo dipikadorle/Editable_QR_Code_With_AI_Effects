@@ -1,0 +1,27 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <title>Editable QR Code</title>
+    <link rel="stylesheet" href="/static/css/style.css">
+</head>
+<body>
+<nav>
+    <div>
+        <h1>Editable QR Code</h1>
+    </div>
+    <div>
+        <a href="/signup">Signup</a>
+        <a href="/login">Login</a>
+    </div>
+</nav>
+
+<h2><u>Welcome to Editable QR Code Generator</u></h2>
+<p>Generate QR codes and update links without changing the QR code image!</p>
+
+{% if session.user_id %}
+<a href="/dashboard">Go to Dashboard</a>
+{% else %}
+<p>Please <a href="/login">Login</a> to Generate QR Code</p>
+{% endif %}
+</body>
+</html>

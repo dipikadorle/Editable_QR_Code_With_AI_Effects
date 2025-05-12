@@ -1,0 +1,19 @@
+{
+    "sqltools.connections": [
+        {
+            "mysqlOptions": {
+                "authProtocol": "default",
+                "enableSsl": "Disabled"
+            },
+            "previewLimit": 100,
+            "server": "localhost",
+            "port": 3306,
+            "driver": "MySQL",
+            "name": "EditableQRCodeDB",
+            "database": "editable_qr_database",
+            "username": "root",
+            "password": "\trootpass",
+            "connectionTimeout": 30
+        }
+    ]
+}
